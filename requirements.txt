@@ -1,0 +1,7 @@
+pandas
+openpyxl
+requests
+rcsbapi
+matplotlib
+seaborn
+pytest
