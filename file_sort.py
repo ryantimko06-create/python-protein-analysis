@@ -14,6 +14,6 @@ for filename in os.listdir(pdb_dir):
         
         if file_size > size_limit:
             os.remove(file_path)
-            print(f"🗑️ Deleted: {filename} ({file_size / 1024:.2f} KB)")
+            print(f"Deleted: {filename} ({file_size / 1024:.2f} KB)")
         else:
-            print(f"✅ Kept: {filename} ({file_size / 1024:.2f} KB)")
+            print(f"Kept: {filename} ({file_size / 1024:.2f} KB)")
