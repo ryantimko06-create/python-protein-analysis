@@ -8,7 +8,6 @@ import argparse
 import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-
 import requests
 
 BASE_URL = "https://files.rcsb.org/download/{}.pdb"
@@ -19,7 +18,6 @@ MAX_WORKERS = 5
 
 
 def read_ids(path: Path) -> list[str]:
-    """Read one PDB ID per line, skipping blank lines."""
     with open(path, "r") as file:
         return [line.strip() for line in file if line.strip()]
 
@@ -32,11 +30,8 @@ def download_pdb(
     backoff: float = BACKOFF_SECONDS,
     sleep=time.sleep,
 ) -> bool:
-    """Download one .pdb file. Returns True on success.
+    #Download one .pdb file and returns True on success.
 
-    Retries on network errors, 5xx, and 429 (rate limit). Other 4xx responses
-    (e.g. 404 for an unknown ID) fail immediately, since retrying won't change them.
-    """
     url = BASE_URL.format(pdb_id)
     for attempt in range(1, retries + 1):
         try:
@@ -74,7 +69,7 @@ def main(argv: list[str] | None = None) -> int:
     pdb_ids = read_ids(args.ids)
 
     with requests.Session() as session, ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
-        # list() forces the results so any unexpected exception surfaces instead of being dropped
+
         results = list(executor.map(lambda pid: download_pdb(session, pid, args.out_dir), pdb_ids))
 
     print(f"Downloaded {sum(results)} of {len(pdb_ids)} files to {args.out_dir}")

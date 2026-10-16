@@ -4,7 +4,17 @@ A project built with Krish Parmar. It pulls ribosomal structure records from the
 
 ## Pipeline
 
-1. **`source/protein_finder`** searches the RCSB PDB for entries with "RIBOSOME" in their keywords and writes the matching IDs to `ribosomal_subunits_results.txt`.
+1. **`source/protein_finder`** searches the RCSB PDB for entries with "RIBOSOME" in their keywords and writes the matching IDs to `ribosomal_subunits_results.txt`. To get smaller datasets, use text files using the following:
+
+```
+head -n 10 ribosomal_subunits_results.txt > test_ids.txt
+python source/data.py --ids test_ids.txt --out test_metadata.xlsx
+python source/search.py --ids test_ids.txt --out-dir test_pdb_files
+python source/st_analysis.py --excel test_metadata.xlsx
+
+The args here allow us to manually set input files and output files, plus splice the primary data set
+```
+
 2. **`source/data.py`** queries the RCSB API for metadata on each ID (title, method, release date, resolution, entity counts, molecular weight) and writes `rcsb_statistical_data_enhanced.xlsx`.
 3. **`source/search.py`** downloads each entry's `.pdb` file into `pdb_files/`, with 5 parallel workers, a 30-second timeout, and retries on network errors and server errors.
 4. **`source/st_analysis.py`** prints summary statistics and plots the distributions of molecular weight, resolution, and release date.

@@ -1,7 +1,7 @@
 pandas
 openpyxl
 requests
-rcsbapi
+rcsb-api
 matplotlib
 seaborn
 pytest

@@ -1,7 +1,7 @@
 
 from rcsbapi.search import TextQuery, AttributeQuery
 
-# Create a TextQuery to search for structures containing the phrase "RIBOSOME"
+
 query1 = TextQuery(value="RIBOSOME")
 
 query2 = AttributeQuery(attribute= "struct_keywords.pdbx_keywords",
@@ -10,14 +10,14 @@ query2 = AttributeQuery(attribute= "struct_keywords.pdbx_keywords",
                         value= "RIBOSOME"
 )   
 
-# Execute the combined query by calling it as a function
+#execute combined query
 results = (query1 & query2)()
 
-# Check if any results were returned
+# results check
 if not results:
     print("No results found for 'RIBOSOME'.")
 else:
-    # Open a text file in write mode to store PDB IDs
+    # opens a text file in write mode to store PDB IDs
     with open("ribosomal_subunits_results.txt", "w") as file:
         for rid in results:
             file.write(rid + "\n")
